@@ -1,0 +1,9 @@
+D:\Capacitaciones\C#\ChatWS\ChatWS2\UtilitiesChat\bin\Debug\UtilitiesChat.dll
+D:\Capacitaciones\C#\ChatWS\ChatWS2\UtilitiesChat\bin\Debug\UtilitiesChat.pdb
+D:\Capacitaciones\C#\ChatWS\ChatWS2\UtilitiesChat\bin\Debug\Newtonsoft.Json.dll
+D:\Capacitaciones\C#\ChatWS\ChatWS2\UtilitiesChat\bin\Debug\Newtonsoft.Json.xml
+D:\Capacitaciones\C#\ChatWS\ChatWS2\UtilitiesChat\obj\Debug\UtilitiesChat.csprojAssemblyReference.cache
+D:\Capacitaciones\C#\ChatWS\ChatWS2\UtilitiesChat\obj\Debug\UtilitiesChat.csproj.CoreCompileInputs.cache
+D:\Capacitaciones\C#\ChatWS\ChatWS2\UtilitiesChat\obj\Debug\UtilitiesChat.csproj.CopyComplete
+D:\Capacitaciones\C#\ChatWS\ChatWS2\UtilitiesChat\obj\Debug\UtilitiesChat.dll
+D:\Capacitaciones\C#\ChatWS\ChatWS2\UtilitiesChat\obj\Debug\UtilitiesChat.pdb

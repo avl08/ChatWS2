@@ -1,0 +1,115 @@
+﻿@model List<UtilitiesChat.Models.WS.MessagesResponse>
+@{
+    ViewBag.Title = "Chat";
+    UtilitiesChat.Models.WS.UserResponse oUserSession = (UtilitiesChat.Models.WS.UserResponse)Session["User"];
+    int idRoom = (int) ViewBag.idRoom;
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="row">
+    <div class="col-md-12">
+        <b>Mensajes de los usuarios de la sala</b>
+        <div style="height:70vh; border:1px solid #000; border-radius:10px; overflow: auto;" id="AllMessages">
+            @foreach (var oMessage in Model)
+            {
+                string classRight = "";
+
+                if (oUserSession.Id == oMessage.IdUser)
+                {
+                    classRight = "messageRight";
+                }
+
+                <div>
+                    <div class="message @classRight">
+                        <b>@oMessage.UserName</b><br />
+                        <div>@oMessage.Message</div>
+                        <div style="text-align:right; font-size:11px;">
+                            @oMessage.DateCreated.ToString();
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            }
+        </div>
+        <div style="height:5vh">
+            <input placeholder="Escribe un mensaje..." type="text" value="" id="txtMessage" style="width:90%;" />
+            <input id="btnSend" type="button" value="Enviar" class="btn btn-success" />
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script src="~/Scripts/jquery.signalR-2.4.1.js"></script>
+    <script src="@ChatWeb.Business.Constants.Url.SignalRHub"></script>
+    <script>
+        $(function ()
+        {
+            $.support.cors = true;
+
+            $.connection.hub.url = "@ChatWeb.Business.Constants.Url.SignalR";
+            var Counter = $.connection.counterHub;
+
+            Counter.client.enterUser = function () {
+                alert("entro alguien");
+            }
+
+            Counter.client.sendChat = function (userName, message, fecha, idUser) {
+                var classRight = "";
+                if (idUser == "@oUserSession.Id")
+                {
+                    classRight = "messageRight";
+                }
+
+                var newMessages ='<div>'+
+                    "<div class='message "+classRight+"'>"+ 
+                        "<b>"+userName+"</b><br />"+
+                        "<div>" + message+"</div>"+
+                    "<div style='text-align:right; font-size:11px;'>" +
+                    fecha +
+                        "</div>"+
+                    "</div>"+
+                    "<div class='clearfix'></div>"+
+                "</div>";
+
+                $("#AllMessages").append(newMessages);
+                $("#txtMessage").focus();
+                $("#txtMessage").prop("value", "");
+                $("#AllMessages").scrollTop($('#AllMessages')[0].scrollHeight);
+            };
+
+            $.connection.hub.start().done(function ()
+            {
+                $("#btnSend").click(function () {
+                    var userName = "@oUserSession.Name"
+                    var idRoom ="@idRoom";
+                    var message = $("#txtMessage").prop("value");
+                    var idUser = "@oUserSession.Id";
+
+                    if (message == "")
+                    {
+                        return;
+                    }
+                    Counter.server.send(idRoom, userName, idUser, message);
+                })
+            });
+
+        })
+    </script>
+
+}
+
+<style>
+    .message {
+        border: 1px solid #CCC;
+        border-radius: 5px;
+        width: 50%;
+        margin: 10px;
+        padding: 5px;
+    }
+
+    .messageRight {
+        float: right;
+    }
+</style>

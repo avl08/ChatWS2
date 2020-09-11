@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ChatDBModelStoreContainer" CdmEntityContainer="ChatDBEntities">
+    <EntitySetMapping Name="cState">
+      <EntityTypeMapping TypeName="ChatDBModel.cState">
+        <MappingFragment StoreEntitySet="cState">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="user">
+      <EntityTypeMapping TypeName="ChatDBModel.user">
+        <MappingFragment StoreEntitySet="user">
+          <ScalarProperty Name="access_token" ColumnName="access_token" />
+          <ScalarProperty Name="city" ColumnName="city" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="date_created" ColumnName="date_created" />
+          <ScalarProperty Name="idState" ColumnName="idState" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="room">
+      <EntityTypeMapping TypeName="ChatDBModel.room">
+        <MappingFragment StoreEntitySet="room">
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="date_created" ColumnName="date_created" />
+          <ScalarProperty Name="idState" ColumnName="idState" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="message">
+      <EntityTypeMapping TypeName="ChatDBModel.message">
+        <MappingFragment StoreEntitySet="message">
+          <ScalarProperty Name="idState" ColumnName="idState" />
+          <ScalarProperty Name="date_created" ColumnName="date_created" />
+          <ScalarProperty Name="text" ColumnName="text" />
+          <ScalarProperty Name="idUser" ColumnName="idUser" />
+          <ScalarProperty Name="idRoom" ColumnName="idRoom" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

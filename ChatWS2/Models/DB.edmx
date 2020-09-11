@@ -1,0 +1,350 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ChatDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="cState">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="message">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idRoom" Type="int" Nullable="false" />
+          <Property Name="idUser" Type="int" />
+          <Property Name="text" Type="varchar" MaxLength="1000" />
+          <Property Name="date_created" Type="datetime" Nullable="false" />
+          <Property Name="idState" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="room">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" />
+          <Property Name="idState" Type="int" />
+          <Property Name="date_created" Type="datetime" />
+          <Property Name="description" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="password" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="idState" Type="int" Nullable="false" />
+          <Property Name="date_created" Type="datetime" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="city" Type="varchar" MaxLength="50" />
+          <Property Name="access_token" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_message_cState">
+          <End Role="cState" Type="Self.cState" Multiplicity="1" />
+          <End Role="message" Type="Self.message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cState">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="message">
+              <PropertyRef Name="idState" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_message_room">
+          <End Role="room" Type="Self.room" Multiplicity="1" />
+          <End Role="message" Type="Self.message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="room">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="message">
+              <PropertyRef Name="idRoom" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_message_user">
+          <End Role="user" Type="Self.user" Multiplicity="0..1" />
+          <End Role="message" Type="Self.message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="message">
+              <PropertyRef Name="idUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_room_cState">
+          <End Role="cState" Type="Self.cState" Multiplicity="0..1" />
+          <End Role="room" Type="Self.room" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cState">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="room">
+              <PropertyRef Name="idState" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_user_cState">
+          <End Role="cState" Type="Self.cState" Multiplicity="1" />
+          <End Role="user" Type="Self.user" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cState">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user">
+              <PropertyRef Name="idState" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ChatDBModelStoreContainer">
+          <EntitySet Name="cState" EntityType="Self.cState" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="message" EntityType="Self.message" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="room" EntityType="Self.room" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="user" EntityType="Self.user" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_message_cState" Association="Self.FK_message_cState">
+            <End Role="cState" EntitySet="cState" />
+            <End Role="message" EntitySet="message" />
+          </AssociationSet>
+          <AssociationSet Name="FK_message_room" Association="Self.FK_message_room">
+            <End Role="room" EntitySet="room" />
+            <End Role="message" EntitySet="message" />
+          </AssociationSet>
+          <AssociationSet Name="FK_message_user" Association="Self.FK_message_user">
+            <End Role="user" EntitySet="user" />
+            <End Role="message" EntitySet="message" />
+          </AssociationSet>
+          <AssociationSet Name="FK_room_cState" Association="Self.FK_room_cState">
+            <End Role="cState" EntitySet="cState" />
+            <End Role="room" EntitySet="room" />
+          </AssociationSet>
+          <AssociationSet Name="FK_user_cState" Association="Self.FK_user_cState">
+            <End Role="cState" EntitySet="cState" />
+            <End Role="user" EntitySet="user" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ChatDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="cState">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="user" Relationship="ChatDBModel.FK_user_cState" FromRole="cState" ToRole="user" />
+          <NavigationProperty Name="room" Relationship="ChatDBModel.FK_room_cState" FromRole="cState" ToRole="room" />
+          <NavigationProperty Name="message" Relationship="ChatDBModel.FK_message_cState" FromRole="cState" ToRole="message" />
+        </EntityType>
+        <EntityContainer Name="ChatDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="cState" EntityType="Self.cState" />
+          <EntitySet Name="user" EntityType="ChatDBModel.user" />
+          <AssociationSet Name="FK_user_cState" Association="ChatDBModel.FK_user_cState">
+            <End Role="cState" EntitySet="cState" />
+            <End Role="user" EntitySet="user" />
+          </AssociationSet>
+          <EntitySet Name="room" EntityType="ChatDBModel.room" />
+          <AssociationSet Name="FK_room_cState" Association="ChatDBModel.FK_room_cState">
+            <End Role="cState" EntitySet="cState" />
+            <End Role="room" EntitySet="room" />
+          </AssociationSet>
+          <EntitySet Name="message" EntityType="ChatDBModel.message" />
+          <AssociationSet Name="FK_message_cState" Association="ChatDBModel.FK_message_cState">
+            <End Role="cState" EntitySet="cState" />
+            <End Role="message" EntitySet="message" />
+          </AssociationSet>
+          <AssociationSet Name="FK_message_room" Association="ChatDBModel.FK_message_room">
+            <End Role="room" EntitySet="room" />
+            <End Role="message" EntitySet="message" />
+          </AssociationSet>
+          <AssociationSet Name="FK_message_user" Association="ChatDBModel.FK_message_user">
+            <End Role="user" EntitySet="user" />
+            <End Role="message" EntitySet="message" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="idState" Type="Int32" Nullable="false" />
+          <Property Name="date_created" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="city" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="access_token" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="cState" Relationship="ChatDBModel.FK_user_cState" FromRole="user" ToRole="cState" />
+          <NavigationProperty Name="message" Relationship="ChatDBModel.FK_message_user" FromRole="user" ToRole="message" />
+        </EntityType>
+        <Association Name="FK_user_cState">
+          <End Type="ChatDBModel.cState" Role="cState" Multiplicity="1" />
+          <End Type="ChatDBModel.user" Role="user" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cState">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user">
+              <PropertyRef Name="idState" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="room">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="idState" Type="Int32" />
+          <Property Name="date_created" Type="DateTime" Precision="3" />
+          <Property Name="description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="cState" Relationship="ChatDBModel.FK_room_cState" FromRole="room" ToRole="cState" />
+          <NavigationProperty Name="message" Relationship="ChatDBModel.FK_message_room" FromRole="room" ToRole="message" />
+        </EntityType>
+        <Association Name="FK_room_cState">
+          <End Type="ChatDBModel.cState" Role="cState" Multiplicity="0..1" />
+          <End Type="ChatDBModel.room" Role="room" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cState">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="room">
+              <PropertyRef Name="idState" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="message">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idRoom" Type="Int32" Nullable="false" />
+          <Property Name="idUser" Type="Int32" />
+          <Property Name="text" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="date_created" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="idState" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="cState" Relationship="ChatDBModel.FK_message_cState" FromRole="message" ToRole="cState" />
+          <NavigationProperty Name="room" Relationship="ChatDBModel.FK_message_room" FromRole="message" ToRole="room" />
+          <NavigationProperty Name="user" Relationship="ChatDBModel.FK_message_user" FromRole="message" ToRole="user" />
+        </EntityType>
+        <Association Name="FK_message_cState">
+          <End Type="ChatDBModel.cState" Role="cState" Multiplicity="1" />
+          <End Type="ChatDBModel.message" Role="message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cState">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="message">
+              <PropertyRef Name="idState" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_message_room">
+          <End Type="ChatDBModel.room" Role="room" Multiplicity="1" />
+          <End Type="ChatDBModel.message" Role="message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="room">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="message">
+              <PropertyRef Name="idRoom" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_message_user">
+          <End Type="ChatDBModel.user" Role="user" Multiplicity="0..1" />
+          <End Type="ChatDBModel.message" Role="message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="message">
+              <PropertyRef Name="idUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ChatDBModelStoreContainer" CdmEntityContainer="ChatDBEntities">
+          <EntitySetMapping Name="cState">
+            <EntityTypeMapping TypeName="ChatDBModel.cState">
+              <MappingFragment StoreEntitySet="cState">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="user">
+            <EntityTypeMapping TypeName="ChatDBModel.user">
+              <MappingFragment StoreEntitySet="user">
+                <ScalarProperty Name="access_token" ColumnName="access_token" />
+                <ScalarProperty Name="city" ColumnName="city" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="date_created" ColumnName="date_created" />
+                <ScalarProperty Name="idState" ColumnName="idState" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="room">
+            <EntityTypeMapping TypeName="ChatDBModel.room">
+              <MappingFragment StoreEntitySet="room">
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="date_created" ColumnName="date_created" />
+                <ScalarProperty Name="idState" ColumnName="idState" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="message">
+            <EntityTypeMapping TypeName="ChatDBModel.message">
+              <MappingFragment StoreEntitySet="message">
+                <ScalarProperty Name="idState" ColumnName="idState" />
+                <ScalarProperty Name="date_created" ColumnName="date_created" />
+                <ScalarProperty Name="text" ColumnName="text" />
+                <ScalarProperty Name="idUser" ColumnName="idUser" />
+                <ScalarProperty Name="idRoom" ColumnName="idRoom" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

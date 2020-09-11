@@ -1,0 +1,9 @@
+D:\Capacitaciones\C#\ChatWS\ChatWS2\ChatDesktop\bin\Debug\ChatDesktop.exe.config
+D:\Capacitaciones\C#\ChatWS\ChatWS2\ChatDesktop\bin\Debug\ChatDesktop.exe
+D:\Capacitaciones\C#\ChatWS\ChatWS2\ChatDesktop\bin\Debug\ChatDesktop.pdb
+D:\Capacitaciones\C#\ChatWS\ChatWS2\ChatDesktop\obj\Debug\ChatDesktop.csprojAssemblyReference.cache
+D:\Capacitaciones\C#\ChatWS\ChatWS2\ChatDesktop\obj\Debug\ChatDesktop.Properties.Resources.resources
+D:\Capacitaciones\C#\ChatWS\ChatWS2\ChatDesktop\obj\Debug\ChatDesktop.csproj.GenerateResource.cache
+D:\Capacitaciones\C#\ChatWS\ChatWS2\ChatDesktop\obj\Debug\ChatDesktop.csproj.CoreCompileInputs.cache
+D:\Capacitaciones\C#\ChatWS\ChatWS2\ChatDesktop\obj\Debug\ChatDesktop.exe
+D:\Capacitaciones\C#\ChatWS\ChatWS2\ChatDesktop\obj\Debug\ChatDesktop.pdb
