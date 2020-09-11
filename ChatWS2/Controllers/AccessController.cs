@@ -31,6 +31,7 @@ namespace ChatWS2.Controllers
                     oUserResponse.AccessToken = AccessToken;
                     oUserResponse.Name = oUser.name;
                     oUserResponse.City = oUser.city;
+                    oUserResponse.Id = oUser.idUser;
 
                     oR.result = 1;
                     oR.data = oUserResponse;

@@ -4,8 +4,19 @@
     <EntitySetMapping Name="cState">
       <EntityTypeMapping TypeName="ChatDBModel.cState">
         <MappingFragment StoreEntitySet="cState">
-          <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="idState" ColumnName="idState" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="room">
+      <EntityTypeMapping TypeName="ChatDBModel.room">
+        <MappingFragment StoreEntitySet="room">
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="date_created" ColumnName="date_created" />
+          <ScalarProperty Name="idState" ColumnName="idState" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="idRoom" ColumnName="idRoom" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -19,18 +30,7 @@
           <ScalarProperty Name="idState" ColumnName="idState" />
           <ScalarProperty Name="password" ColumnName="password" />
           <ScalarProperty Name="email" ColumnName="email" />
-          <ScalarProperty Name="id" ColumnName="id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="room">
-      <EntityTypeMapping TypeName="ChatDBModel.room">
-        <MappingFragment StoreEntitySet="room">
-          <ScalarProperty Name="description" ColumnName="description" />
-          <ScalarProperty Name="date_created" ColumnName="date_created" />
-          <ScalarProperty Name="idState" ColumnName="idState" />
-          <ScalarProperty Name="name" ColumnName="name" />
-          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="idUser" ColumnName="idUser" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -42,7 +42,7 @@
           <ScalarProperty Name="text" ColumnName="text" />
           <ScalarProperty Name="idUser" ColumnName="idUser" />
           <ScalarProperty Name="idRoom" ColumnName="idRoom" />
-          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="idMessage" ColumnName="idMessage" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

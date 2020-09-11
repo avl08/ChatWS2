@@ -14,9 +14,9 @@ namespace ChatWS2.Models
     
     public partial class message
     {
-        public int id { get; set; }
+        public int idMessage { get; set; }
         public int idRoom { get; set; }
-        public Nullable<int> idUser { get; set; }
+        public int idUser { get; set; }
         public string text { get; set; }
         public System.DateTime date_created { get; set; }
         public int idState { get; set; }

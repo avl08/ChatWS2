@@ -20,7 +20,7 @@ namespace ChatWS2.Models
             this.message = new HashSet<message>();
         }
     
-        public int id { get; set; }
+        public int idRoom { get; set; }
         public string name { get; set; }
         public Nullable<int> idState { get; set; }
         public Nullable<System.DateTime> date_created { get; set; }

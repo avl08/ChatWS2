@@ -20,7 +20,7 @@ namespace ChatWS2.Models
             this.message = new HashSet<message>();
         }
     
-        public int id { get; set; }
+        public int idUser { get; set; }
         public string email { get; set; }
         public string password { get; set; }
         public int idState { get; set; }

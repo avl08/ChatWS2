@@ -26,8 +26,8 @@ namespace ChatWS2.Models
         }
     
         public virtual DbSet<cState> cState { get; set; }
-        public virtual DbSet<user> user { get; set; }
         public virtual DbSet<room> room { get; set; }
+        public virtual DbSet<user> user { get; set; }
         public virtual DbSet<message> message { get; set; }
     }
 }

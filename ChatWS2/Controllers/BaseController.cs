@@ -24,7 +24,7 @@ namespace ChatWS2.Controllers
                     oUserSession.AccessToken = oUser.access_token;
                     oUserSession.City = oUser.city;
                     oUserSession.Name= oUser.name;
-                    oUserSession.Id = oUser.id;
+                    oUserSession.Id = oUser.idUser;
                     return true;
                 }
             }

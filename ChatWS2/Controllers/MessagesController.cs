@@ -33,8 +33,8 @@ namespace ChatWS2.Controllers
                                                   select new MessagesResponse
                                                  {
                                                      Message = d.text,
-                                                     Id = d.id,
-                                                     IdUser = (int)d.idUser,
+                                                     Id = d.idMessage,
+                                                     IdUser = d.idUser,
                                                      UserName = d.user.name,
                                                      DateCreated = (DateTime)d.date_created,
                                                      TypeMessage = (
@@ -43,7 +43,7 @@ namespace ChatWS2.Controllers
                                                             {
                                                                 try 
                                                                 {
-                                                                    if (d.idUser == oUserSession.Id)
+                                                                    if (d.idUser== oUserSession.Id)
                                                                     {
                                                                         return 1;
                                                                     }

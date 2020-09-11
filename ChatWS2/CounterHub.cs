@@ -20,17 +20,18 @@ namespace ChatWS2
         {
             string fecha = DateTime.Now.ToString();
 
-            //using (ChatDBEntities db = new ChatDBEntities())
-            //{
-            //    var oMessage = new message();
-            //    oMessage.idRoom = idRoom;
-            //    oMessage.date_created = DateTime.Now;
-            //    oMessage.idUser = idUser;
-            //    oMessage.text = message;
-            //    oMessage.idState = 1;
-            //    db.message.Add(oMessage);
-            //    db.SaveChanges();
-            //}
+            using (ChatDBEntities db = new ChatDBEntities())
+            {
+                var oMessage = new message();
+                oMessage.idRoom = idRoom;
+                oMessage.date_created = DateTime.Now;
+                oMessage.idUser = idUser;
+                oMessage.text = message;
+                oMessage.idState = 1;
+                
+                db.message.Add(oMessage);
+                db.SaveChanges();
+            }
 
             Clients.All.sendChat(userName, message, fecha, idUser);
         }

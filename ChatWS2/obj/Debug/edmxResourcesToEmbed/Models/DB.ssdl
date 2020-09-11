@@ -2,27 +2,27 @@
 <Schema Namespace="ChatDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
   <EntityType Name="cState">
     <Key>
-      <PropertyRef Name="id" />
+      <PropertyRef Name="idState" />
     </Key>
-    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="idState" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="name" Type="varchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="message">
     <Key>
-      <PropertyRef Name="id" />
+      <PropertyRef Name="idMessage" />
     </Key>
-    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="idMessage" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="idRoom" Type="int" Nullable="false" />
-    <Property Name="idUser" Type="int" />
+    <Property Name="idUser" Type="int" Nullable="false" />
     <Property Name="text" Type="varchar" MaxLength="1000" />
     <Property Name="date_created" Type="datetime" Nullable="false" />
     <Property Name="idState" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="room">
     <Key>
-      <PropertyRef Name="id" />
+      <PropertyRef Name="idRoom" />
     </Key>
-    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="idRoom" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="name" Type="varchar" MaxLength="50" />
     <Property Name="idState" Type="int" />
     <Property Name="date_created" Type="datetime" />
@@ -30,9 +30,9 @@
   </EntityType>
   <EntityType Name="user">
     <Key>
-      <PropertyRef Name="id" />
+      <PropertyRef Name="idUser" />
     </Key>
-    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="idUser" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="email" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="password" Type="varchar" MaxLength="100" Nullable="false" />
     <Property Name="idState" Type="int" Nullable="false" />
@@ -46,7 +46,7 @@
     <End Role="message" Type="Self.message" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="cState">
-        <PropertyRef Name="id" />
+        <PropertyRef Name="idState" />
       </Principal>
       <Dependent Role="message">
         <PropertyRef Name="idState" />
@@ -58,7 +58,7 @@
     <End Role="message" Type="Self.message" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="room">
-        <PropertyRef Name="id" />
+        <PropertyRef Name="idRoom" />
       </Principal>
       <Dependent Role="message">
         <PropertyRef Name="idRoom" />
@@ -66,11 +66,11 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_message_user">
-    <End Role="user" Type="Self.user" Multiplicity="0..1" />
+    <End Role="user" Type="Self.user" Multiplicity="1" />
     <End Role="message" Type="Self.message" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="user">
-        <PropertyRef Name="id" />
+        <PropertyRef Name="idUser" />
       </Principal>
       <Dependent Role="message">
         <PropertyRef Name="idUser" />
@@ -82,7 +82,7 @@
     <End Role="room" Type="Self.room" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="cState">
-        <PropertyRef Name="id" />
+        <PropertyRef Name="idState" />
       </Principal>
       <Dependent Role="room">
         <PropertyRef Name="idState" />
@@ -94,7 +94,7 @@
     <End Role="user" Type="Self.user" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="cState">
-        <PropertyRef Name="id" />
+        <PropertyRef Name="idState" />
       </Principal>
       <Dependent Role="user">
         <PropertyRef Name="idState" />

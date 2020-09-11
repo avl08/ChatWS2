@@ -7,27 +7,27 @@
     <Schema Namespace="ChatDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="cState">
           <Key>
-            <PropertyRef Name="id" />
+            <PropertyRef Name="idState" />
           </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idState" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="name" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="message">
           <Key>
-            <PropertyRef Name="id" />
+            <PropertyRef Name="idMessage" />
           </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idMessage" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="idRoom" Type="int" Nullable="false" />
-          <Property Name="idUser" Type="int" />
+          <Property Name="idUser" Type="int" Nullable="false" />
           <Property Name="text" Type="varchar" MaxLength="1000" />
           <Property Name="date_created" Type="datetime" Nullable="false" />
           <Property Name="idState" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="room">
           <Key>
-            <PropertyRef Name="id" />
+            <PropertyRef Name="idRoom" />
           </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idRoom" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="name" Type="varchar" MaxLength="50" />
           <Property Name="idState" Type="int" />
           <Property Name="date_created" Type="datetime" />
@@ -35,9 +35,9 @@
         </EntityType>
         <EntityType Name="user">
           <Key>
-            <PropertyRef Name="id" />
+            <PropertyRef Name="idUser" />
           </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idUser" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="email" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="password" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="idState" Type="int" Nullable="false" />
@@ -51,7 +51,7 @@
           <End Role="message" Type="Self.message" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="cState">
-              <PropertyRef Name="id" />
+              <PropertyRef Name="idState" />
             </Principal>
             <Dependent Role="message">
               <PropertyRef Name="idState" />
@@ -63,7 +63,7 @@
           <End Role="message" Type="Self.message" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="room">
-              <PropertyRef Name="id" />
+              <PropertyRef Name="idRoom" />
             </Principal>
             <Dependent Role="message">
               <PropertyRef Name="idRoom" />
@@ -71,11 +71,11 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_message_user">
-          <End Role="user" Type="Self.user" Multiplicity="0..1" />
+          <End Role="user" Type="Self.user" Multiplicity="1" />
           <End Role="message" Type="Self.message" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="user">
-              <PropertyRef Name="id" />
+              <PropertyRef Name="idUser" />
             </Principal>
             <Dependent Role="message">
               <PropertyRef Name="idUser" />
@@ -87,7 +87,7 @@
           <End Role="room" Type="Self.room" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="cState">
-              <PropertyRef Name="id" />
+              <PropertyRef Name="idState" />
             </Principal>
             <Dependent Role="room">
               <PropertyRef Name="idState" />
@@ -99,7 +99,7 @@
           <End Role="user" Type="Self.user" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="cState">
-              <PropertyRef Name="id" />
+              <PropertyRef Name="idState" />
             </Principal>
             <Dependent Role="user">
               <PropertyRef Name="idState" />
@@ -136,27 +136,17 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ChatDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="cState">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="user" Relationship="ChatDBModel.FK_user_cState" FromRole="cState" ToRole="user" />
-          <NavigationProperty Name="room" Relationship="ChatDBModel.FK_room_cState" FromRole="cState" ToRole="room" />
-          <NavigationProperty Name="message" Relationship="ChatDBModel.FK_message_cState" FromRole="cState" ToRole="message" />
-        </EntityType>
         <EntityContainer Name="ChatDBEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="cState" EntityType="Self.cState" />
-          <EntitySet Name="user" EntityType="ChatDBModel.user" />
-          <AssociationSet Name="FK_user_cState" Association="ChatDBModel.FK_user_cState">
-            <End Role="cState" EntitySet="cState" />
-            <End Role="user" EntitySet="user" />
-          </AssociationSet>
+          <EntitySet Name="cState" EntityType="ChatDBModel.cState" />
           <EntitySet Name="room" EntityType="ChatDBModel.room" />
+          <EntitySet Name="user" EntityType="ChatDBModel.user" />
           <AssociationSet Name="FK_room_cState" Association="ChatDBModel.FK_room_cState">
             <End Role="cState" EntitySet="cState" />
             <End Role="room" EntitySet="room" />
+          </AssociationSet>
+          <AssociationSet Name="FK_user_cState" Association="ChatDBModel.FK_user_cState">
+            <End Role="cState" EntitySet="cState" />
+            <End Role="user" EntitySet="user" />
           </AssociationSet>
           <EntitySet Name="message" EntityType="ChatDBModel.message" />
           <AssociationSet Name="FK_message_cState" Association="ChatDBModel.FK_message_cState">
@@ -172,11 +162,33 @@
             <End Role="message" EntitySet="message" />
           </AssociationSet>
           </EntityContainer>
+        <EntityType Name="cState">
+          <Key>
+            <PropertyRef Name="idState" />
+          </Key>
+          <Property Name="idState" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="room" Relationship="ChatDBModel.FK_room_cState" FromRole="cState" ToRole="room" />
+          <NavigationProperty Name="user" Relationship="ChatDBModel.FK_user_cState" FromRole="cState" ToRole="user" />
+          <NavigationProperty Name="message" Relationship="ChatDBModel.FK_message_cState" FromRole="cState" ToRole="message" />
+        </EntityType>
+        <EntityType Name="room">
+          <Key>
+            <PropertyRef Name="idRoom" />
+          </Key>
+          <Property Name="idRoom" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="idState" Type="Int32" />
+          <Property Name="date_created" Type="DateTime" Precision="3" />
+          <Property Name="description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="cState" Relationship="ChatDBModel.FK_room_cState" FromRole="room" ToRole="cState" />
+          <NavigationProperty Name="message" Relationship="ChatDBModel.FK_message_room" FromRole="room" ToRole="message" />
+        </EntityType>
         <EntityType Name="user">
           <Key>
-            <PropertyRef Name="id" />
+            <PropertyRef Name="idUser" />
           </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idUser" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="password" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="idState" Type="Int32" Nullable="false" />
@@ -187,49 +199,37 @@
           <NavigationProperty Name="cState" Relationship="ChatDBModel.FK_user_cState" FromRole="user" ToRole="cState" />
           <NavigationProperty Name="message" Relationship="ChatDBModel.FK_message_user" FromRole="user" ToRole="message" />
         </EntityType>
-        <Association Name="FK_user_cState">
-          <End Type="ChatDBModel.cState" Role="cState" Multiplicity="1" />
-          <End Type="ChatDBModel.user" Role="user" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="cState">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="user">
-              <PropertyRef Name="idState" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="room">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="idState" Type="Int32" />
-          <Property Name="date_created" Type="DateTime" Precision="3" />
-          <Property Name="description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="cState" Relationship="ChatDBModel.FK_room_cState" FromRole="room" ToRole="cState" />
-          <NavigationProperty Name="message" Relationship="ChatDBModel.FK_message_room" FromRole="room" ToRole="message" />
-        </EntityType>
         <Association Name="FK_room_cState">
           <End Type="ChatDBModel.cState" Role="cState" Multiplicity="0..1" />
           <End Type="ChatDBModel.room" Role="room" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="cState">
-              <PropertyRef Name="id" />
+              <PropertyRef Name="idState" />
             </Principal>
             <Dependent Role="room">
               <PropertyRef Name="idState" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_user_cState">
+          <End Type="ChatDBModel.cState" Role="cState" Multiplicity="1" />
+          <End Type="ChatDBModel.user" Role="user" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cState">
+              <PropertyRef Name="idState" />
+            </Principal>
+            <Dependent Role="user">
+              <PropertyRef Name="idState" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityType Name="message">
           <Key>
-            <PropertyRef Name="id" />
+            <PropertyRef Name="idMessage" />
           </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idMessage" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="idRoom" Type="Int32" Nullable="false" />
-          <Property Name="idUser" Type="Int32" />
+          <Property Name="idUser" Type="Int32" Nullable="false" />
           <Property Name="text" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
           <Property Name="date_created" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="idState" Type="Int32" Nullable="false" />
@@ -242,7 +242,7 @@
           <End Type="ChatDBModel.message" Role="message" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="cState">
-              <PropertyRef Name="id" />
+              <PropertyRef Name="idState" />
             </Principal>
             <Dependent Role="message">
               <PropertyRef Name="idState" />
@@ -254,7 +254,7 @@
           <End Type="ChatDBModel.message" Role="message" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="room">
-              <PropertyRef Name="id" />
+              <PropertyRef Name="idRoom" />
             </Principal>
             <Dependent Role="message">
               <PropertyRef Name="idRoom" />
@@ -262,11 +262,11 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_message_user">
-          <End Type="ChatDBModel.user" Role="user" Multiplicity="0..1" />
+          <End Type="ChatDBModel.user" Role="user" Multiplicity="1" />
           <End Type="ChatDBModel.message" Role="message" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="user">
-              <PropertyRef Name="id" />
+              <PropertyRef Name="idUser" />
             </Principal>
             <Dependent Role="message">
               <PropertyRef Name="idUser" />
@@ -282,8 +282,19 @@
           <EntitySetMapping Name="cState">
             <EntityTypeMapping TypeName="ChatDBModel.cState">
               <MappingFragment StoreEntitySet="cState">
-                <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="idState" ColumnName="idState" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="room">
+            <EntityTypeMapping TypeName="ChatDBModel.room">
+              <MappingFragment StoreEntitySet="room">
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="date_created" ColumnName="date_created" />
+                <ScalarProperty Name="idState" ColumnName="idState" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="idRoom" ColumnName="idRoom" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -297,18 +308,7 @@
                 <ScalarProperty Name="idState" ColumnName="idState" />
                 <ScalarProperty Name="password" ColumnName="password" />
                 <ScalarProperty Name="email" ColumnName="email" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="room">
-            <EntityTypeMapping TypeName="ChatDBModel.room">
-              <MappingFragment StoreEntitySet="room">
-                <ScalarProperty Name="description" ColumnName="description" />
-                <ScalarProperty Name="date_created" ColumnName="date_created" />
-                <ScalarProperty Name="idState" ColumnName="idState" />
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idUser" ColumnName="idUser" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -320,7 +320,7 @@
                 <ScalarProperty Name="text" ColumnName="text" />
                 <ScalarProperty Name="idUser" ColumnName="idUser" />
                 <ScalarProperty Name="idRoom" ColumnName="idRoom" />
-                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idMessage" ColumnName="idMessage" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

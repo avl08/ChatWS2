@@ -1,26 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="ChatDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-  <EntityType Name="cState">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <NavigationProperty Name="user" Relationship="ChatDBModel.FK_user_cState" FromRole="cState" ToRole="user" />
-    <NavigationProperty Name="room" Relationship="ChatDBModel.FK_room_cState" FromRole="cState" ToRole="room" />
-    <NavigationProperty Name="message" Relationship="ChatDBModel.FK_message_cState" FromRole="cState" ToRole="message" />
-  </EntityType>
   <EntityContainer Name="ChatDBEntities" annotation:LazyLoadingEnabled="true">
-    <EntitySet Name="cState" EntityType="Self.cState" />
-    <EntitySet Name="user" EntityType="ChatDBModel.user" />
-    <AssociationSet Name="FK_user_cState" Association="ChatDBModel.FK_user_cState">
-      <End Role="cState" EntitySet="cState" />
-      <End Role="user" EntitySet="user" />
-    </AssociationSet>
+    <EntitySet Name="cState" EntityType="ChatDBModel.cState" />
     <EntitySet Name="room" EntityType="ChatDBModel.room" />
+    <EntitySet Name="user" EntityType="ChatDBModel.user" />
     <AssociationSet Name="FK_room_cState" Association="ChatDBModel.FK_room_cState">
       <End Role="cState" EntitySet="cState" />
       <End Role="room" EntitySet="room" />
+    </AssociationSet>
+    <AssociationSet Name="FK_user_cState" Association="ChatDBModel.FK_user_cState">
+      <End Role="cState" EntitySet="cState" />
+      <End Role="user" EntitySet="user" />
     </AssociationSet>
     <EntitySet Name="message" EntityType="ChatDBModel.message" />
     <AssociationSet Name="FK_message_cState" Association="ChatDBModel.FK_message_cState">
@@ -36,11 +26,33 @@
       <End Role="message" EntitySet="message" />
     </AssociationSet>
   </EntityContainer>
+  <EntityType Name="cState">
+    <Key>
+      <PropertyRef Name="idState" />
+    </Key>
+    <Property Name="idState" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="room" Relationship="ChatDBModel.FK_room_cState" FromRole="cState" ToRole="room" />
+    <NavigationProperty Name="user" Relationship="ChatDBModel.FK_user_cState" FromRole="cState" ToRole="user" />
+    <NavigationProperty Name="message" Relationship="ChatDBModel.FK_message_cState" FromRole="cState" ToRole="message" />
+  </EntityType>
+  <EntityType Name="room">
+    <Key>
+      <PropertyRef Name="idRoom" />
+    </Key>
+    <Property Name="idRoom" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="idState" Type="Int32" />
+    <Property Name="date_created" Type="DateTime" Precision="3" />
+    <Property Name="description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="cState" Relationship="ChatDBModel.FK_room_cState" FromRole="room" ToRole="cState" />
+    <NavigationProperty Name="message" Relationship="ChatDBModel.FK_message_room" FromRole="room" ToRole="message" />
+  </EntityType>
   <EntityType Name="user">
     <Key>
-      <PropertyRef Name="id" />
+      <PropertyRef Name="idUser" />
     </Key>
-    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="idUser" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="password" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
     <Property Name="idState" Type="Int32" Nullable="false" />
@@ -51,49 +63,37 @@
     <NavigationProperty Name="cState" Relationship="ChatDBModel.FK_user_cState" FromRole="user" ToRole="cState" />
     <NavigationProperty Name="message" Relationship="ChatDBModel.FK_message_user" FromRole="user" ToRole="message" />
   </EntityType>
-  <Association Name="FK_user_cState">
-    <End Type="ChatDBModel.cState" Role="cState" Multiplicity="1" />
-    <End Type="ChatDBModel.user" Role="user" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="cState">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="user">
-        <PropertyRef Name="idState" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <EntityType Name="room">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="idState" Type="Int32" />
-    <Property Name="date_created" Type="DateTime" Precision="3" />
-    <Property Name="description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <NavigationProperty Name="cState" Relationship="ChatDBModel.FK_room_cState" FromRole="room" ToRole="cState" />
-    <NavigationProperty Name="message" Relationship="ChatDBModel.FK_message_room" FromRole="room" ToRole="message" />
-  </EntityType>
   <Association Name="FK_room_cState">
     <End Type="ChatDBModel.cState" Role="cState" Multiplicity="0..1" />
     <End Type="ChatDBModel.room" Role="room" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="cState">
-        <PropertyRef Name="id" />
+        <PropertyRef Name="idState" />
       </Principal>
       <Dependent Role="room">
         <PropertyRef Name="idState" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_user_cState">
+    <End Type="ChatDBModel.cState" Role="cState" Multiplicity="1" />
+    <End Type="ChatDBModel.user" Role="user" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="cState">
+        <PropertyRef Name="idState" />
+      </Principal>
+      <Dependent Role="user">
+        <PropertyRef Name="idState" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityType Name="message">
     <Key>
-      <PropertyRef Name="id" />
+      <PropertyRef Name="idMessage" />
     </Key>
-    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="idMessage" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="idRoom" Type="Int32" Nullable="false" />
-    <Property Name="idUser" Type="Int32" />
+    <Property Name="idUser" Type="Int32" Nullable="false" />
     <Property Name="text" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
     <Property Name="date_created" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="idState" Type="Int32" Nullable="false" />
@@ -106,7 +106,7 @@
     <End Type="ChatDBModel.message" Role="message" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="cState">
-        <PropertyRef Name="id" />
+        <PropertyRef Name="idState" />
       </Principal>
       <Dependent Role="message">
         <PropertyRef Name="idState" />
@@ -118,7 +118,7 @@
     <End Type="ChatDBModel.message" Role="message" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="room">
-        <PropertyRef Name="id" />
+        <PropertyRef Name="idRoom" />
       </Principal>
       <Dependent Role="message">
         <PropertyRef Name="idRoom" />
@@ -126,11 +126,11 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_message_user">
-    <End Type="ChatDBModel.user" Role="user" Multiplicity="0..1" />
+    <End Type="ChatDBModel.user" Role="user" Multiplicity="1" />
     <End Type="ChatDBModel.message" Role="message" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="user">
-        <PropertyRef Name="id" />
+        <PropertyRef Name="idUser" />
       </Principal>
       <Dependent Role="message">
         <PropertyRef Name="idUser" />

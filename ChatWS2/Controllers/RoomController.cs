@@ -31,7 +31,7 @@ namespace ChatWS2.Controllers
                                                     {
                                                         Name = d.name,
                                                         Description = d.description,
-                                                        Id = d.id
+                                                        Id = d.idRoom
                                                     }).ToList();
                 oR.data = lstRoomsResponse;
             }
