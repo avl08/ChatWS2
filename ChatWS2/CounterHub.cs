@@ -16,24 +16,47 @@ namespace ChatWS2
             return base.OnConnected();
         }
 
-        public void Send(int idRoom, string userName, int idUser, string message) 
+        public void AddGroup(int idRoom) 
         {
-            string fecha = DateTime.Now.ToString();
+            Groups.Add(Context.ConnectionId, idRoom.ToString());
+        }
 
+        public void Send(int idRoom, string userName, int idUser, string message, string AccessToken) 
+        {
+            if (VerifyToken(AccessToken)) 
+            {
+                string fecha = DateTime.Now.ToString();
+
+                using (ChatDBEntities db = new ChatDBEntities())
+                {
+                    var oMessage = new message();
+                    oMessage.idRoom = idRoom;
+                    oMessage.date_created = DateTime.Now;
+                    oMessage.idUser = idUser;
+                    oMessage.text = message;
+                    oMessage.idState = 1;
+
+                    db.message.Add(oMessage);
+                    db.SaveChanges();
+                }
+
+                Clients.Group(idRoom.ToString()).sendChat(userName, message, fecha, idUser);
+            }
+            
+        }
+
+        protected bool VerifyToken(string AccessToken)
+        {
             using (ChatDBEntities db = new ChatDBEntities())
             {
-                var oMessage = new message();
-                oMessage.idRoom = idRoom;
-                oMessage.date_created = DateTime.Now;
-                oMessage.idUser = idUser;
-                oMessage.text = message;
-                oMessage.idState = 1;
-                
-                db.message.Add(oMessage);
-                db.SaveChanges();
-            }
+                var oUser = db.user.Where(d => d.access_token == AccessToken).FirstOrDefault();
 
-            Clients.All.sendChat(userName, message, fecha, idUser);
+                if (oUser != null)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

@@ -81,6 +81,8 @@
 
             $.connection.hub.start().done(function ()
             {
+                Counter.server.addGroup(@idRoom)
+
                 $("#btnSend").click(function () {
                     var userName = "@oUserSession.Name"
                     var idRoom ="@idRoom";
@@ -91,7 +93,7 @@
                     {
                         return;
                     }
-                    Counter.server.send(idRoom, userName, idUser, message);
+                    Counter.server.send(idRoom, userName, idUser, message, "@oUserSession.AccessToken");
                 })
             });
 
