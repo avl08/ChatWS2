@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Web;
 using Microsoft.AspNet.SignalR;
 using ChatWS2.Models;
+using System.Text.RegularExpressions;
 
 namespace ChatWS2
 {
